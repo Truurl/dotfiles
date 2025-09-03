@@ -1,0 +1,373 @@
+[{
+	"layer": "top",
+	"reload_style_on_change": true,
+	"exclusive": true,
+	"fixed-center": true,
+	"modules-left": [ "custom/spotify", ],
+	"modules-center": ["clock", "custom/weather"],
+	"modules-right": [ "wireplumber", "wireplumber#source","hyprland/language", "keyboard-state", "custom/notifications"],
+
+	"hyprland/language": {
+		"format": "{} 󰌌 ",
+		"format-cn": "中文",
+		"format-chinese": "中文",
+		"format-en": "US",
+		"format-pl": "PL",
+		"min-length": 3,
+		"keyboard-name": "keychron-keychron-v3-max-keyboard",
+		"on-click": "~/.config/waybar/scripts/switch-lang.sh"
+	},
+
+	"keyboard-state": {
+		"capslock": true,
+		"format": "{icon}",
+		"format-icons": {
+			"locked": "󰪛",
+			"unlocked": "󰪛"
+		},
+	},
+
+	"mpris": {
+		"interval": 5,
+		"format": "{player_icon} {status_icon} <i>{artist} - {title}</i>",
+		"format-paused": "{player_icon} {status_icon} <i>{artist} - {title}</i>",
+		"on-click-middle": "playerctl play-pause",
+		"on-click": "playerctl previous",
+		"on-click-right": "playerctl next",
+		"scroll-step": 5.0,
+		"smooth-scrolling-threshold": 1,
+		"player-icons": {
+			"default": "",
+			"kdeconnect": "",
+			"mopidy": "",
+			"mpv": "󰐹",
+			"spotify": "<span color='#1ed760'></span>",
+			"vlc": "󰕼",
+		},
+		"status-icons": {
+			"paused": "󰏤",
+			"playing": "",
+			"stopped": "",
+		},
+		"ignored-players": ["firefox", "chromium", "vlc"],
+		"max-length": 30,
+	},
+
+	"custom/playerctl": {
+		"format": "{text}",
+		"return-type": "json",
+		"exec": "python3 $HOME/.config/waybar/scripts/mediaplayer.py",
+		"on-click": "playerctl play-pause",
+		"on-click-right": "playerctl next",
+		"on-click-middle": "playerctl previous",
+		"format-icons": {
+			"Paused": "<span foreground='#bb6af7'></span>",
+			"Playing": "<span foreground='#bb9af7'></span>"
+		}
+	},
+	
+	"custom/spotify": {
+		"format": "{text}",
+		"exec": "python3 $HOME/.config/waybar/scripts/spotify.py",
+		"on-click": "playerctl previous",
+		"on-click-right": "playerctl next",
+		"on-click-middle": "playerctl --player=spotify play-pause",
+		"max-length": 40,
+		"interval": 1,
+	},
+
+	"wireplumber": {
+		"tooltip": true,
+		"scroll-step": 5,
+		"format": "{icon} {volume}%",
+		"format-muted": "󰖁 {volume}%",
+		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
+		"on-click-right": "pwvucontrol",
+		"format-icons": [ "", "", "󰕾", "" ],
+    "max-volume": 140,
+	},
+
+//	"wireplumber#2": {
+//	    "format": "{icon} {volume}%",
+//	    "format-muted": "󰖁 {volume}%",
+//	    "on-click": "~/.config/hypr/scripts/volume.sh --toggle",
+//	    "on-click-right": "pwvucontrol",
+//	    "on-scroll-up": "~/.config/hypr/scripts/volume.sh --inc",
+//	    "on-scroll-down": "~/.config/hypr/scripts/volume.sh --dec",
+//	    "format-icons": ["", "", "󰕾", ""],
+//			"scroll-step": 5,
+//	    "max-volume": 140,
+//	},
+	
+	"wireplumber#source": {
+	    "format": " {volume}%",
+	    "format-muted": "  {wolume}%",
+      "node-type": "Audio/Source",
+	    "on-click": "wpctl set-mute @DEFAULT_SOURCE@ toggle",
+	    "on-click-right": "pwvucontrol",
+			"tooltip-format": "{source_desc} | {source_volume}%",
+	    "scroll-step": 5,
+			"max-volume": 140,
+	},
+
+	"network": {
+		"justify": "center",
+		"tooltip": true,
+		"format-wifi": "  {essid}",
+		"format-ethernet": "󰛳  {ifname}\n<span overline=\"single\">󰕒 {bandwidthUpBytes} 󰇚 {bandwidthDownBytes}</span>",
+		"tooltip-format": "<b>{ifname}</b>\n  IP:{ipaddr}/{cidr}\r  GW: {gwaddr}"
+	},
+
+  "clock": {
+		"justify": "center",
+		"locale": "pl_PL.UTF-8",
+		"format": "󰥔 {:%H:%M  %d.%m.%y}",
+		"tooltip-format": "<tt><small>{calendar}</small></tt>",
+		"calendar": {
+			"mode"          : "year",
+			"mode-mon-col"  : 3,
+			"weeks-pos"     : "right",
+			"on-scroll"     : 1,
+			"format": {
+				"months":     "<span color='#ffead3'><b>{}</b></span>",
+				"days":       "<span color='#ecc6d9'><b>{}</b></span>",
+				"weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+				"weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+				"today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+			}
+		},
+		"actions":  {
+			"on-click-right": "mode",
+			"on-scroll-up": "tz_up",
+			"on-scroll-down": "tz_down",
+			"on-scroll-up": "shift_up",
+			"on-scroll-down": "shift_down"
+		}
+	},
+
+	"custom/weather": {
+		"format": "{}",
+		"tooltip": true,
+		"interval": 1800,
+		"exec": "$HOME/.config/waybar/scripts/wttr.py",
+		"return-type": "json"
+	},
+
+  "bluetooth": {
+      "format": "{icon}",
+			// "format-alt": "{status}"
+      "on-click": "blueman-manager",
+      "format-icons": {
+          "enabled": "<big>󰂯</big>",
+          "disabled": "<big>󰂲</big>"
+      },
+  },
+
+  "custom/media": {
+      "interval": 30,
+      "format": "{icon} {}",
+      "return-type": "json",
+      "max-length": 20,
+      "format-icons": {
+          "spotify": " ",
+          "default": " "
+      },
+      "escape": true,
+      "exec": "$HOME/.config/system_scripts/mediaplayer.py 2> /dev/null",
+      "on-click": "playerctl play-pause"
+  },
+  "custom/launcher":{
+      "format": "∞",
+      "on-click": "rofi -show drun",
+      "on-click-right": "killall rofi"
+  },
+  "custom/power":{
+      "format": "",
+			"align": 0,
+      "on-click": "nwg-bar"
+  },
+  "custom/notifications": {
+      "format": ""
+  },
+}, 
+{	
+	"layer": "top",
+	"position": "bottom",
+	"reload_style_on_change": true,
+	"exclusive": true,
+	"fixed-center": true,
+	"modules-left": ["cpu", "custom/gpu", "memory", "memory#2", "temperature", "custom/gpu-temperature", "disk", "disk#2",],
+	"modules-center": ["hyprland/workspaces", "hyprland/window"],
+	"modules-right": [ "tray"],
+
+	"tray":{
+		"icon-size": 20,
+		"spacing": 4, 
+	},
+
+	"network": {
+		"justify": "center",
+		"tooltip": true,
+		"format-wifi": "  {essid}",
+		"format-ethernet": "󰛳  {ifname}\n<span overline=\"single\">󰕒 {bandwidthUpBytes} 󰇚 {bandwidthDownBytes}</span>",
+		"tooltip-format": "<b>{ifname}</b>\n  IP:{ipaddr}/{cidr}\r  GW: {gwaddr}"
+	},
+
+	"cpu": {
+		"justify": "center",
+    "interval": 15,
+    "format": "CPU  {usage}%",
+		"format-alt": "CPU {icon0}{icon1}{icon2}{icon3}",
+		"format-alt-click": "click",
+		"format-icons": [
+			"▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"
+		],
+		"min-length": 8,
+  	"max-length": 15
+  },
+
+	"custom/gpu": 
+	{
+		"exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader",
+		"format": "GPU {}",
+		"max-length": 10,
+		"interval": 15
+	},
+
+  "memory": {
+      "interval": 20,
+			"format": "MEM {percentage}%",
+			"format-alt": "MEM {used:0.1f}G",
+			"format-alt-click": "click",
+      // "format": "<b>MEM:</b> {}%",
+			"tooltip": true,
+			"tooltip-format": "{used:0.1f}GB/{total:0.1f}GB",
+			"on-click-right": "alacritty --title btop sh -c 'btop'",
+      "max-length": 12,
+  },
+  
+  "memory#2": {
+      "interval": 20,
+			"format": "SWAP {swapPercentage}%",
+			"format-alt": "SWAP {swapUsed:0.1f}G",
+			"format-alt-click": "click",
+      // "format": "<b>SWAP:</b> {}%",
+			"tooltip": true,
+			"tooltip-format": "{swapUsed:0.1f}GB/{swapTotal:0.1f}GB",
+			"on-click-right": "alacritty --title btop sh -c 'btop'",
+      "max-length": 12,
+  },
+
+	"disk": {
+		"interval": 30,
+		//"format": "",
+		"path": "/",
+		//"format-alt-click": "click",
+		"format": "{percentage_used}% 󰋊",
+		//"tooltip": true,
+		"tooltip-format": "{used} used out of {total} on {path} ({percentage_used}%)",
+	},
+
+	"disk#2": {
+		"interval": 30,
+		//"format": "",
+		"path": "/home",
+		//"format-alt-click": "click",
+		"format": "{percentage_used}% 󰋊",
+		//"tooltip": true,
+		"tooltip-format": "{used} used out of {total} on {path} ({percentage_used}%)",
+	},
+
+	"temperature": {
+		"interval": 10,
+		"tooltip": true,
+		"hwmon-path": [
+        "/sys/class/thermal/thermal_zone0",
+        "/sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input",
+        "/sys/devices/platform/coretemp.0/hwmon/hwmon6/temp2_input"
+		],
+		"thermal-zone": 0,
+		"critical-threshold": 90,
+		"format-critical": "{temperatureC}°C {icon}",
+		"format": "{temperatureC}°C {icon}",
+		"format-icons": [
+			"󰈸"
+		],
+	},
+
+	"custom/gpu-temperature": {
+		"exec": "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader",
+		"format": "󰍛 󰈸 {}°C" ,
+		"max-length": 10,
+		"interval": 15
+	},
+
+  "custom/media": {
+      "interval": 30,
+      "format": "{icon} {}",
+      "return-type": "json",
+      "max-length": 20,
+      "format-icons": {
+          "spotify": " ",
+          "default": " "
+      },
+      "escape": true,
+      "exec": "$HOME/.config/system_scripts/mediaplayer.py 2> /dev/null",
+      "on-click": "playerctl play-pause"
+  },
+
+  "hyprland/window": {
+      "max-length": 25,
+      "separate-outputs": true,
+		"offscreen-css": true,
+		"offscreen-css-text": "(inactive)",
+		"rewrite": {
+			"(.*) — Mozilla Firefox": " $1",
+			"(.*) - fish": "> [$1]",
+			"(.*) - zsh": "> [$1]",
+			"(.*) - $term": "> [$1]",
+		},
+  },
+	
+  "hyprland/workspaces": {
+    "disable-scroll": false,
+    "on-click": "activate",
+		"show-back-and-forth" : true,
+    "on-scroll-up": "hyprctl dispatch workspace e+2",
+    "on-scroll-down": "hyprctl dispatch workspace e-2",
+		"format": "{icon}: {windows}",
+		"format-icons": {
+			"1": "R1",
+			"2": "L1",
+			"3": "R2",
+			"4": "L2",
+			"5": "R3",
+			"6": "L3",
+			"7": "R4",
+			"8": "L4",
+			"9": "R5",
+			"10": "L5",
+		},
+		"window-rewrite-default": " ",
+		"window-rewrite": {
+			"title<.*Picture-in-Picture.*>": " ",
+			"class<firefox|org.mozilla.firefox|librewolf|floorp|mercury-browser|[Cc]achy-browser>": "<span color='#E66000'> </span>",
+			"class<kitty|konsole|alacritty>": " ",
+			"class<kitty-dropterm>": " ",
+			"class<Chromium|Thorium>": " ",
+			"class<org.telegram.desktop|io.github.tdesktop_x64.TDesktop>": " ",
+			"class<[Ss]potify>": "<span color='#1ed760'> </span>",
+			"class<thunar>": "󰝰 ",
+			"class<discord|[Ww]ebcord|Vesktop>": "<span color='#5865F2'>  </span>",
+			"class<celluloid|Zoom>": " ",
+			"class<mousepad>": " ",
+			"class<libreoffice-writer>": " ",
+			"class<libreoffice-startcenter>": "󰏆 ",
+			"class<polkit-gnome-authentication-agent-1>": "󰒃 ",
+			"class<nwg-look>": " ",
+			"class<vlc>": "󰕼 ",
+			"class<steam>": "<span color='#66c0f4'> </span>",
+			}   
+	}
+}
+]

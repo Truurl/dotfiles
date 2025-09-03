@@ -1,0 +1,210 @@
+{
+	"layer": "bottom",
+	"modules-left": ["cpu", "custom/gpu", "memory"],
+	"modules-center": ["hyprland/workspaces"],
+	"modules-right": [ "tray", "custom/notifications"],
+
+	"hyprland/language": {
+		"format": "{} 󰌌  ",
+		"format-en": "US",
+		"format-pl": "PL",
+		"min-length": 3,
+		"keyboard-name": "keychron-keychron-v3-max-keyboard",
+		"on-click": "~/.config/waybar/scripts/switch-lang.sh"
+	},
+
+  "sway/language": {
+		"format": "{} ",
+		"min-length": 5,
+		"tooltip": false
+  },
+
+  "custom/language": {
+		"exec": "~/.config/waybar/scripts/get-lang.sh",
+		"format": "{} 󰌌 ",
+		"min-length": 5,
+		"on-click": "~/.config/waybar/scripts/switch-lang.sh",
+		"interval": 1,
+		"tooltip": false
+  },
+
+	"keyboard-state": {
+		"capslock": true,
+		"format": "{icon}",
+		"format-icons": {
+			"locked": "󰪛 ",
+			"unlocked": "󰪛 "
+		},
+	},
+
+	"custom/playerctl": {
+		"format": "{text}",
+		"return-type": "json",
+		"exec": "python3 $HOME/.config/waybar/scripts/mediaplayer.py",
+		"on-click": "playerctl play-pause",
+		"on-click-right": "playerctl next",
+		"on-click-middle": "playerctl previous",
+		"format-icons": {
+			"Paused": "<span foreground='#bb6af7'></span>",
+			"Playing": "<span foreground='#bb9af7'></span>"
+		}
+	},
+	
+	"custom/spotify": {
+		"format": "{text}",
+		"exec": "python3 $HOME/.config/waybar/scripts/spotify.py",
+		"on-click": "playerctl play-pause",
+		"on-click-right": "playerctl next",
+		"on-click-middle": "playerctl previous",
+		"interval": 1
+	},
+
+	"wireplumber": {
+		"tooltip": true,
+		"scroll-step": 5,
+		"format": "{icon} {volume}%",
+		"format-muted": "󰖁 {volume}%",
+		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
+		"on-click-right": "pwvucontrol",
+		"format-icons": ["󰕿 ", "󰖀 ", "󰕾 "]
+	},
+
+	"network": {
+		"justify": "center",
+		"tooltip": true,
+		"format-wifi": "  {essid}",
+		"format-ethernet": "󰛳  {ifname}\n<span overline=\"single\">󰕒 {bandwidthUpBytes} 󰇚 {bandwidthDownBytes}</span>",
+		"tooltip-format": "<b>{ifname}</b>\n  IP:{ipaddr}/{cidr}\r  GW: {gwaddr}"
+	},
+
+	"tray":{
+		"icon-size":16,
+		"spacing": 10
+	},
+
+  "clock": {
+		"justify": "center",
+		"locale": "pl_PL.UTF-8",
+		"format": "󰥔 {:%H:%M  %d.%m.%y}",
+		"tooltip-format": "<tt><small>{calendar}</small></tt>",
+		"calendar": {
+			"mode"          : "year",
+			"mode-mon-col"  : 3,
+			"weeks-pos"     : "right",
+			"on-scroll"     : 1,
+			"format": {
+				"months":     "<span color='#ffead3'><b>{}</b></span>",
+				"days":       "<span color='#ecc6d9'><b>{}</b></span>",
+				"weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+				"weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+				"today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+			}
+		},
+		"actions":  {
+			"on-click-right": "mode",
+			"on-scroll-up": "tz_up",
+			"on-scroll-down": "tz_down",
+			"on-scroll-up": "shift_up",
+			"on-scroll-down": "shift_down"
+		}
+	},
+
+	"custom/weather": {
+		"format": "{}",
+		"tooltip": true,
+		"interval": 1800,
+		"exec": "$HOME/.config/waybar/scripts/wttr.py",
+		"return-type": "json"
+	},
+
+	"cpu": {
+		"justify": "center",
+    "interval": 15,
+    "format": "<b>CPU:</b> {}%",
+  	"max-length": 10
+  },
+
+	"custom/gpu": 
+	{
+		"exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader",
+		"format": "<b>GPU:</b> {}",
+		"max-length": 10,
+		"interval": 15
+	},
+
+  "memory": {
+      "interval": 30,
+      "format": "<b>MEM:</b> {}%",
+      "max-length": 10
+  },
+
+	"group/usage": {
+		"orientation": "horizontal",
+		"modules": [
+			"cpu",
+			"custom/gpu",
+			"memory"
+		]
+	},
+  "bluetooth": {
+      "format": "{icon}",
+			// "format-alt": "{status}"
+      "on-click": "blueman-manager",
+      "format-icons": {
+          "enabled": "<big>󰂯</big>",
+          "disabled": "<big>󰂲</big>"
+      },
+  },
+
+  "custom/media": {
+      "interval": 30,
+      "format": "{icon} {}",
+      "return-type": "json",
+      "max-length": 20,
+      "format-icons": {
+          "spotify": " ",
+          "default": " "
+      },
+      "escape": true,
+      "exec": "$HOME/.config/system_scripts/mediaplayer.py 2> /dev/null",
+      "on-click": "playerctl play-pause"
+  },
+  "custom/launcher":{
+      "format": "∞",
+      "on-click": "rofi -show drun",
+      "on-click-right": "killall rofi"
+  },
+  "custom/power":{
+      "format": "",
+			"align": 0,
+      "on-click": "nwg-bar"
+  },
+  "custom/notifications": {
+      "format": ""
+  },
+  "hyprland/window": {
+      "max-length": 200,
+      "separate-outputs": true
+  },
+	
+  "hyprland/workspaces": {
+    "disable-scroll": true,
+    "on-click": "activate",
+		"show-back-and-forth" : true,
+    // "all-outputs": false,
+    // "format": "{name}: {icon}",
+    "format": "{name}",
+    "on-scroll-up": "hyprctl dispatch workspace m-1 > /dev/null",
+    "on-scroll-down": "hyprctl dispatch workspace m+1 > /dev/null",
+    "format-icons": {
+        "1": " ",
+        "2": "󰈹 ",
+        "3": " ",
+        "4": " ",
+        "5": " ",
+        "urgent": " ",
+        "focused": " ",
+        "default": " "
+    }
+  },
+}
