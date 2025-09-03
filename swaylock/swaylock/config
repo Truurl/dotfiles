@@ -1,0 +1,29 @@
+image=~/Pictures/Papes/1688973752007645.jpg
+daemonize
+show-failed-attempts
+ignore-empty-password
+font=JetBrainsMono Nerd Font
+font-size=16
+
+effect-vignette=0.7:0.7
+
+indicator
+indicator-radius=200
+indicator-thickness=10
+indicator-y-position=550
+indicator-caps-lock
+
+ring-color=FFC041
+key-hl-color=A3BE8C
+# line-color=2E3440
+# separator-color=3B4252
+# bs-hl-color=A3BE8C
+# layout-bg-color=3B4252
+# layout-border-color=4C566A
+# layout-text-color=D8DEE9
+# text-color=D8DEE9
+# separator-color=00000000
+
+clock
+datestr=%d.%m.%Y
+timestr=%H:%M %p
